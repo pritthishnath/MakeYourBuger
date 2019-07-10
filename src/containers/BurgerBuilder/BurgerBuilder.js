@@ -3,6 +3,8 @@ import React from "react";
 import Aux from "../../hoc/Auxiliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICE = {
   salad: 0.5,
@@ -25,17 +27,17 @@ class BurgerBuilder extends React.Component {
 
   updatePurchaseable = ingredients => {
     const sum = Object.keys(ingredients)
-        .map(igKey => {
-            // console.log("ingredients[igKey] :" + ingredients[igKey]);
-            return ingredients[igKey];
-        })
-        .reduce((sum, el) => {
-            // console.log(sum + el);
-            // console.log( "[sum] :" + sum + "[el] :" + el);
-            return sum + el;
-        }, 0)
+      .map(igKey => {
+        // console.log("ingredients[igKey] :" + ingredients[igKey]);
+        return ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        // console.log(sum + el);
+        // console.log( "[sum] :" + sum + "[el] :" + el);
+        return sum + el;
+      }, 0)
 
-        this.setState({purchaseable: sum > 0});
+    this.setState({ purchaseable: sum > 0 });
   }
 
   addIngredientsHandler = type => {
@@ -71,15 +73,18 @@ class BurgerBuilder extends React.Component {
 
   render() {
     const disabledInfo = {
-        ...this.state.ingredients
+      ...this.state.ingredients
     };
 
     for (let key in disabledInfo) {
-        disabledInfo[key] = disabledInfo[key] <= 0
+      disabledInfo[key] = disabledInfo[key] <= 0
     };
 
     return (
       <Aux>
+        <Modal>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           ingredientsAdded={this.addIngredientsHandler}
