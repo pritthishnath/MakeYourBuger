@@ -22,8 +22,8 @@ class BurgerBuilder extends React.Component {
       meat: 0
     },
     totalPrice: 4,
-    purchaseable: false,
-    purchasing: false
+    purchaseable: false,  //for the ORDER NOW btn
+    purchasing: false     //for Order Summary pop-up
   };
 
   updatePurchaseable = ingredients => {
@@ -72,8 +72,16 @@ class BurgerBuilder extends React.Component {
     this.updatePurchaseable(updatedIngredients);
   };
 
-  purchasingHandler = () => {
+  purchasingHandler = () => {      //used for Buy Now button
     this.setState({ purchasing: true });
+  }
+
+  purchaseCancelHandler = () => {   //used for Backdrop & Cancel button in OrderSummary
+    this.setState({ purchasing: false });
+  }
+
+  purchaseContinueHandler = () => {   //used for Continue button in OrderSummary
+    alert("You continued!!");
   }
 
   render() {
@@ -87,8 +95,12 @@ class BurgerBuilder extends React.Component {
 
     return (
       <Aux>
-        <Modal show={this.state.purchasing} >
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler} >
+          <OrderSummary 
+            ingredients={this.state.ingredients} 
+            purchaseCancel={this.purchaseCancelHandler}
+            purchaseContinue={this.purchaseContinueHandler}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
