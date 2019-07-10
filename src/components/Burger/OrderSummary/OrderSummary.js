@@ -1,9 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import Aux from "../../../hoc/Auxiliary";
 import Button from "../../UI/Button/Button";
 
-const orderSummary = props => {
+const OrderSummary = props => {
+
+  useEffect(() => {
+    return console.log("[OrderSummary] updating");
+  })
+
   const ingredientsSummary = Object.keys(props.ingredients).map(igKey => {
     return (
       <li key={igKey}>
@@ -31,4 +36,4 @@ const orderSummary = props => {
   );
 };
 
-export default orderSummary;
+export default OrderSummary;
