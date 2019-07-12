@@ -17,8 +17,6 @@ const Modal = React.memo(props => (
       {props.children}
     </div>
   </Aux>
-), (prevProps, nextProps) => {
-  return prevProps.show === nextProps.show
-});
+));
 
 export default Modal;
