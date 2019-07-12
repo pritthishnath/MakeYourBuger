@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import styles from './NavItems.module.css';
-import NavItem from './NavItem/NavItem';
+import styles from "./NavItems.module.css";
+import NavItem from "./NavItem/NavItem";
 
 const navItems = () => (
-    <ul className={styles.NavItems}>
-        <NavItem link="/" active>Burger Builder</NavItem>
-        <NavItem link="/">Checkout</NavItem>
-    </ul>
-)
+  <ul className={styles.NavItems}>
+    <NavItem link="/">Burger Builder</NavItem>
+    <NavItem link="/orders">Orders</NavItem>
+  </ul>
+);
 
 export default navItems;

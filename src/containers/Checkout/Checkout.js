@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
 
+import Spinner from "../../components/UI/Spinner/Spinner";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
+import ContactData from "../ContactData/ContactData";
 
 const Checkout = props => {
-  const [ingredients, setIngredients] = useState({
-    salad: 1,
-    bacon: 1,
-    cheese: 1,
-    meat: 1
-  });
+  const [ingredients, setIngredients] = useState(null);
+  const [price, setPrice] = useState(null);
 
   useEffect(() => {
     const query = new URLSearchParams(props.location.search);
     const ingredients = {};
+    let price = null;
     for (let param of query.entries()) {
-      ingredients[param[0]] = +param[1];
+      if (param[0] === "price") {
+        price = param[1];
+      } else {
+        ingredients[param[0]] = +param[1];
+      }
     }
     setIngredients(ingredients);
-  }, [props.location.search]);
+    setPrice(price);
+  }, []);
 
   const cancelledHandler = () => {
     props.history.goBack();
@@ -27,15 +32,23 @@ const Checkout = props => {
     props.history.push("/checkout/contact-form");
   };
 
-  return (
+  let checkoutSummary = ingredients ? (
     <div>
       <CheckoutSummary
         ingredients={ingredients}
+        price={price}
         cancelled={cancelledHandler}
         continued={continuedHandler}
       />
+      <Route
+        path={props.match.url + "/contact-form"}
+        render={() => <ContactData ingredients={ingredients} price={price} />}
+      />
     </div>
+  ) : (
+    <Spinner />
   );
+  return checkoutSummary;
 };
 
 export default Checkout;

@@ -95,32 +95,7 @@ class BurgerBuilder extends React.Component {
 
   purchaseContinueHandler = () => {
     console.log(this.props);
-    //used for Continue button in OrderSummary
-    // alert("You continued!!");
-    // this.setState({ loading: true });
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: "Pritthish",
-    //     address: {
-    //       street: "1 Teststreet",
-    //       zip: 23414
-    //     },
-    //     email: "test1@b.com"
-    //   },
-    //   delivery: "Postal"
-    // };
-    // axios
-    //   .post("/orders.json", order)
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({ loading: false, purchasing: false });
-    //   })
-    //   .catch(err => {
-    //     // console.log(err);
-    //     this.setState({ loading: false, purchasing: false });
-    //   });
+
     const queryParams = [];
     for (let i in this.state.ingredients) {
       queryParams.push(
@@ -129,6 +104,7 @@ class BurgerBuilder extends React.Component {
           encodeURIComponent(this.state.ingredients[i])
       );
     }
+    queryParams.push("price=" + this.state.totalPrice);
     const queryString = queryParams.join("&");
     this.props.history.push({
       pathname: "/checkout",
