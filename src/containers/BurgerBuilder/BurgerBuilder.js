@@ -33,8 +33,8 @@ class BurgerBuilder extends React.Component {
         this.setState({ ingredients: res.data });
       })
       .catch(err => {
-        this.setState({ error: true })
-      })
+        this.setState({ error: true });
+      });
   }
 
   updatePurchaseable = ingredients => {
@@ -94,32 +94,46 @@ class BurgerBuilder extends React.Component {
   };
 
   purchaseContinueHandler = () => {
+    console.log(this.props);
     //used for Continue button in OrderSummary
     // alert("You continued!!");
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Pritthish",
-        address: {
-          street: "1 Teststreet",
-          zip: 23414
-        },
-        email: "test1@b.com"
-      },
-      delivery: "Postal"
-    };
-    axios
-      .post("/orders.json", order)
-      .then(res => {
-        console.log(res);
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch(err => {
-        // console.log(err);
-        this.setState({ loading: false, purchasing: false });
-      });
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: "Pritthish",
+    //     address: {
+    //       street: "1 Teststreet",
+    //       zip: 23414
+    //     },
+    //     email: "test1@b.com"
+    //   },
+    //   delivery: "Postal"
+    // };
+    // axios
+    //   .post("/orders.json", order)
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setState({ loading: false, purchasing: false });
+    //   })
+    //   .catch(err => {
+    //     // console.log(err);
+    //     this.setState({ loading: false, purchasing: false });
+    //   });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString
+    });
   };
 
   render() {
@@ -130,9 +144,13 @@ class BurgerBuilder extends React.Component {
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
-    
+
     let orderSummary = null;
-    let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
+    let burger = this.state.error ? (
+      <p>Ingredients can't be loaded</p>
+    ) : (
+      <Spinner />
+    );
     if (this.state.ingredients) {
       burger = (
         <Aux>

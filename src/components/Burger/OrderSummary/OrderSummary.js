@@ -1,18 +1,18 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Button from "../../UI/Button/Button";
 
 const OrderSummary = props => {
-
   useEffect(() => {
     return console.log("[OrderSummary] updating");
-  })
+  });
 
   const ingredientsSummary = Object.keys(props.ingredients).map(igKey => {
     return (
       <li key={igKey}>
-        <span style={{ textTransform: "capitalize" }}>{igKey}</span> : {props.ingredients[igKey]}
+        <span style={{ textTransform: "capitalize" }}>{igKey}</span> :{" "}
+        {props.ingredients[igKey]}
       </li>
     );
   });
