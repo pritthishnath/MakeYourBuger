@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Order from "../../components/Order/Order";
 import axios from "axios";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
-const Orders = props => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+class Orders extends React.Component {
+  state = {
+    orders: [],
+    loading: true
+  };
 
-  useEffect(() => {
+  componentDidMount() {
+    console.log(this.props);
     axios
       .get("/orders.json")
       .then(res => {
@@ -20,20 +23,23 @@ const Orders = props => {
           });
         }
         console.log(fetchedOrders);
-        setOrders(fetchedOrders);
-        setLoading(false);
+        this.setState({ orders: fetchedOrders, loading: false });
       })
       .catch(err => {
-        setLoading(false);
+        this.setState({ loading: false });
       });
-  }, []);
+  }
 
-  return (
-    <div>
-      <Order />
-      <Order />
-    </div>
-  );
-};
+  render() {
+    let order = <p>error..</p>;
+    if (this.state.orders) {
+      order = this.state.orders.map(order => {
+        return <Order key={order.id} price={order.price} />;
+      });
+    }
+
+    return <div>{order}</div>;
+  }
+}
 
 export default withErrorHandler(Orders, axios);
