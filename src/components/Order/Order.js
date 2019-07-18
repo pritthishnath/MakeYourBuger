@@ -3,9 +3,6 @@ import React from "react";
 import styles from "./Order.module.css";
 
 const order = props => {
-<<<<<<< HEAD
-  console.log(props);
-=======
   const ingredients = [];
 
   for (let ingredientName in props.ingredients) {
@@ -32,16 +29,11 @@ const order = props => {
     );
   });
 
->>>>>>> temp
   return (
     <div className={styles.Order}>
       <p>Ingredients: {ingredientsOutput}</p>
       <p>
-<<<<<<< HEAD
-        Price: <strong>USD {props.price}</strong>
-=======
         Price: <strong>USD {props.price.toFixed(2)}</strong>
->>>>>>> temp
       </p>
     </div>
   );
