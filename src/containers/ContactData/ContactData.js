@@ -19,19 +19,21 @@ const ContactData = props => {
       validation: {
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     email: {
       elementType: "input",
       elementConfig: {
-        type: "email",
+        type: "e-mail",
         placeholder: "E-Mail"
       },
       value: "",
       validation: {
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     street: {
       elementType: "input",
@@ -43,12 +45,13 @@ const ContactData = props => {
       validation: {
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     zipcode: {
       elementType: "input",
       elementConfig: {
-        type: "zipcode",
+        type: "zip-code",
         placeholder: "ZIP Code"
       },
       value: "",
@@ -56,7 +59,8 @@ const ContactData = props => {
         required: true,
         minLen: 5
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     country: {
       elementType: "input",
@@ -68,7 +72,8 @@ const ContactData = props => {
       validation: {
         required: true
       },
-      valid: false
+      valid: false,
+      touched: false
     },
     delivery: {
       elementType: "select",
@@ -78,13 +83,18 @@ const ContactData = props => {
           { value: "cheapest", displayValue: "Cheapest" }
         ]
       },
-      value: ""
+      value: "",
+      valid: true
     }
   });
   const [loading, setLoading] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
 
   const checkValidity = (value, rules) => {
     let isValid = true;
+    if (!rules) {
+      return true;
+    }
     if (rules.required) {
       isValid = value.trim() !== "" && isValid;
     }
@@ -109,6 +119,12 @@ const ContactData = props => {
       updatedOrderForm[id].value,
       updatedOrderForm[id].validation
     );
+    updatedOrderForm[id].touched = true;
+    let upformIsValid = true;
+    for (let id in updatedOrderForm) {
+      upformIsValid = updatedOrderForm[id].valid && upformIsValid;
+    }
+    setFormIsValid(upformIsValid);
     setOrderForm(updatedOrderForm);
   };
 
@@ -155,10 +171,15 @@ const ContactData = props => {
               elementType={order.config.elementType}
               elementConfig={order.config.elementConfig}
               value={order.config.value}
+              invalid={!order.config.valid}
+              shouldValidate={order.config.validation}
+              touched={order.config.touched}
               changed={event => formInputHandler(event, order.id)}
             />
           ))}
-          <Button btnType="Success">ORDER</Button>
+          <Button btnType="Success" disabled={!formIsValid}>
+            ORDER
+          </Button>
         </form>
       ) : (
         <Spinner />

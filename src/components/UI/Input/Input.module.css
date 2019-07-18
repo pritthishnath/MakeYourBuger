@@ -4,17 +4,18 @@
   box-sizing: border-box;
 }
 
-.Label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 8px;
+.ValidationError {
+  margin: 0;
+  padding: 0;
+  color: red;
+  font-size: 0.8rem;
+  text-align: left;
 }
 
 .InputElement {
   outline: none;
   padding: 6px 10px;
   border: 1px solid #cccc;
-  background-color: white;
   font: inherit;
   display: block;
   width: 100%;
@@ -24,4 +25,9 @@
 .InputElement:focus {
   outline: none;
   background-color: #ccc;
+}
+
+.Invalid {
+  border: 1px solid #da1919;
+  background-color: #ff9e93;
 }
