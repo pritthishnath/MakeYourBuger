@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Button from "../../components/UI/Button/Button";
 import styles from "./ContactData.module.css";
+import Input from "../../components/UI/Input/Input";
 
 const ContactData = props => {
   const [state, setState] = useState({
@@ -49,10 +50,10 @@ const ContactData = props => {
     <div className={styles.ContactData}>
       <h2>Enter your contact details</h2>
       <form>
-        <input type="text" name="name" placeholder="Name" />
-        <input type="text" name="email" placeholder="Email" />
-        <input type="text" name="street" placeholder="Street" />
-        <input type="text" name="postal" placeholder="Postal Code" />
+        <Input inputtype="input" name="name" placeholder="Name" />
+        <Input inputtype="input" name="email" placeholder="Email" />
+        <Input inputtype="input" name="street" placeholder="Street" />
+        <Input inputtype="input" name="postal" placeholder="Postal Code" />
         <Button btnType="Success" clicked={orderHandler}>
           ORDER
         </Button>

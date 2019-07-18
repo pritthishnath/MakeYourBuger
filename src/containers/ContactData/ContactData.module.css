@@ -9,15 +9,6 @@
   box-sizing: border-box;
 }
 
-.ContactData form {
-  align-self: center;
-}
-
-.ContactData input {
-  display: block;
-  margin: 3px auto;
-}
-
 @media (min-width: 600px) {
   .ContactData {
     width: 500px;
