@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 
 import Order from "../../components/Order/Order";
 import axios from "axios";
+import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const Orders = props => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get("/orders.json")
       .then(res => {
@@ -30,8 +32,19 @@ const Orders = props => {
 
   return (
     <div>
-      <Order />
-      <Order />
+      {!loading ? (
+        orders.map(order => {
+          return (
+            <Order
+              key={order.id}
+              price={+order.price}
+              ingredients={order.ingredients}
+            />
+          );
+        })
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 };
