@@ -1,4 +1,4 @@
-import * as actions from "./actions";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   ingredients: {
@@ -19,7 +19,7 @@ const INGREDIENT_PRICE = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.ADD_ING:
+    case actionTypes.ADD_ING:
       return {
         ...state,
         ingredients: {
@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) => {
         },
         totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingName]
       };
-    case actions.REMOVE_ING:
+    case actionTypes.REMOVE_ING:
       return {
         ...state,
         ingredients: {

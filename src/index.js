@@ -8,11 +8,14 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
-import reducer from "./store/reducer";
+import reducer from "./store/reducers/burgerBuilder";
 
 axios.defaults.baseURL = "https://react-myburger-2cf8d.firebaseio.com/";
 
-const store = createStore(reducer);
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const app = (
   <Provider store={store}>
