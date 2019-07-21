@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -26,15 +26,15 @@ const Checkout = props => {
       <Route path={props.match.url + "/contact-form"} component={ContactData} />
     </div>
   ) : (
-    <Spinner />
+    <Redirect to="/" />
   );
   return checkoutSummary;
 };
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.builder.ingredients,
+    price: state.builder.totalPrice
   };
 };
 

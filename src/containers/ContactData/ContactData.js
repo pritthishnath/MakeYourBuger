@@ -7,6 +7,7 @@ import Button from "../../components/UI/Button/Button";
 import styles from "./ContactData.module.css";
 import Input from "../../components/UI/Input/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import * as actions from "../../store/actions/index";
 
 const ContactData = props => {
   const [orderForm, setOrderForm] = useState({
@@ -84,11 +85,11 @@ const ContactData = props => {
           { value: "cheapest", displayValue: "Cheapest" }
         ]
       },
-      value: "",
+      value: "fastest",
       valid: true
     }
   });
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
 
   const checkValidity = (value, rules) => {
@@ -131,7 +132,6 @@ const ContactData = props => {
 
   const orderHandler = event => {
     event.preventDefault();
-    setLoading(true);
 
     const formDate = {};
     for (let formElementName in orderForm) {
@@ -142,16 +142,8 @@ const ContactData = props => {
       price: props.price,
       customerDetails: formDate
     };
-    axios
-      .post("/orders.json", order)
-      .then(res => {
-        console.log(res);
-        setLoading(false);
-      })
-      .catch(err => {
-        // console.log(err);
-        setLoading(false);
-      });
+
+    props.onOrder(order);
   };
   const formArray = [];
   for (let key in orderForm) {
@@ -164,7 +156,7 @@ const ContactData = props => {
   return (
     <div className={styles.ContactData}>
       <h2>Enter your contact details</h2>
-      {!loading ? (
+      {!props.loading ? (
         <form onSubmit={orderHandler}>
           {formArray.map(order => (
             <Input
@@ -191,9 +183,19 @@ const ContactData = props => {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.builder.ingredients,
+    price: state.builder.totalPrice,
+    loading: state.order.loading
   };
 };
 
-export default connect(mapStateToProps)(withRouter(ContactData));
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrder: order => dispatch(actions.order(order))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ContactData));
