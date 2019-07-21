@@ -3,7 +3,6 @@ import React from "react";
 import styles from "./Input.module.css";
 
 const input = props => {
-  console.log(props);
   let inputElement = null;
   const inputClass = [styles.InputElement];
   if (props.invalid && props.shouldValidate && props.touched) {
