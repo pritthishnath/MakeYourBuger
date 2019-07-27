@@ -14,16 +14,20 @@ const INGREDIENT_PRICE = {
   meat: 1.5
 };
 
+const addIngredient = (state, action) => {
+  const updatedIngredients = updateObject(state.ingredients, {
+    [action.ingName]: state.ingredients[action.ingName] + 1
+  });
+  return updateObject(state, {
+    ingredients: updatedIngredients,
+    totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingName]
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_ING:
-      const updatedIngredients = updateObject(state.ingredients, {
-        [action.ingName]: state.ingredients[action.ingName] + 1
-      });
-      return updateObject(state, {
-        ingredients: updatedIngredients,
-        totalPrice: state.totalPrice + INGREDIENT_PRICE[action.ingName]
-      });
+      return addIngredient(state, action);
     case actionTypes.REMOVE_ING:
       return {
         ...state,
@@ -44,7 +48,7 @@ const reducer = (state = initialState, action) => {
         },
         totalPrice: 4
       };
-    case actionTypes.FETCH_ING_FAILD:
+    case actionTypes.FETCH_ING_FAILED:
       return updateObject(state, { error: true });
     default:
       return state;
