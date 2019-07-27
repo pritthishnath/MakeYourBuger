@@ -13,10 +13,6 @@ const Orders = props => {
   useEffect(() => {
     props.onFetchOrders(props.token);
   }, []);
-  let error = false;
-  if (props.error) {
-    error = true;
-  }
 
   let orders = <Spinner />;
   if (!props.loading) {
@@ -31,7 +27,7 @@ const Orders = props => {
 
   return (
     <Aux>
-      <Modal show={error} modalClosed={props.onModalClosed}>
+      <Modal show={props.error} modalClosed={props.onModalClosed}>
         Unauthorized Access
       </Modal>
       {orders}

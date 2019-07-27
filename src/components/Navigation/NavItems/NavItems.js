@@ -1,14 +1,25 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import styles from "./NavItems.module.css";
 import NavItem from "./NavItem/NavItem";
 
-const navItems = () => (
+const navItems = props => (
   <ul className={styles.NavItems}>
     <NavItem link="/">Burger Builder</NavItem>
     <NavItem link="/orders">Orders</NavItem>
-    <NavItem link="/authenticate">Authenticate</NavItem>
+    {!props.isAuth ? (
+      <NavItem link="/authenticate">Authenticate</NavItem>
+    ) : (
+      <NavItem link="/logout">Logout</NavItem>
+    )}
   </ul>
 );
 
-export default navItems;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.token !== null
+  };
+};
+
+export default connect(mapStateToProps)(navItems);
