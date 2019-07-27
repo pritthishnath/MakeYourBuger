@@ -11,7 +11,7 @@ const checkoutSummary = props => {
       <div style={{ width: "100%", margin: "auto" }}>
         <Burger ingredients={props.ingredients} />
       </div>
-      <h3>Total Price: {props.price} USD</h3>
+      <h3>Total Price: {props.price.toFixed(2)} USD</h3>
       <Button btnType="Danger" clicked={props.cancelled}>
         CANCEL
       </Button>
