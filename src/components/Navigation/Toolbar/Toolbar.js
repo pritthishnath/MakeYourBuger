@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import styles from './Toolbar.module.css';
-import Logo from '../../Logo/Logo';
-import NavItems from '../NavItems/NavItems';
-import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import DrawerToggle from './DrawerToggle/DrawerToggle';
+import styles from "./Toolbar.module.css";
+import Logo from "../../Logo/Logo";
+import NavItems from "../NavItems/NavItems";
+import Aux from "../../../hoc/Auxiliary/Auxiliary";
+import DrawerToggle from "./DrawerToggle/DrawerToggle";
 
 const toolbar = props => (
   <Aux>
@@ -12,7 +12,7 @@ const toolbar = props => (
       <DrawerToggle clicked={props.sideDrawerOpen} />
       <Logo />
       <nav className={styles.DesktopOnly}>
-        <NavItems />
+        <NavItems isAuth={props.isAuth} />
       </nav>
     </header>
   </Aux>

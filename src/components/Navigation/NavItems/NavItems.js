@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 import styles from "./NavItems.module.css";
 import NavItem from "./NavItem/NavItem";
@@ -16,10 +15,4 @@ const navItems = props => (
   </ul>
 );
 
-const mapStateToProps = state => {
-  return {
-    isAuth: state.auth.token !== null
-  };
-};
-
-export default connect(mapStateToProps)(navItems);
+export default navItems;
