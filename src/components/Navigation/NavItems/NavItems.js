@@ -7,11 +7,11 @@ import NavItem from "./NavItem/NavItem";
 const navItems = props => (
   <ul className={styles.NavItems}>
     <NavItem link="/">Burger Builder</NavItem>
-    <NavItem link="/orders">Orders</NavItem>
+    {props.isAuth ? <NavItem link="/orders">Orders</NavItem> : null}
     {!props.isAuth ? (
-      <NavItem link="/authenticate">Authenticate</NavItem>
+      <NavItem link="/authenticate">Log In</NavItem>
     ) : (
-      <NavItem link="/logout">Logout</NavItem>
+      <NavItem link="/logout">Log Out</NavItem>
     )}
   </ul>
 );
