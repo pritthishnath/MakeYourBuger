@@ -139,6 +139,7 @@ const ContactData = props => {
     const order = {
       ingredients: props.ings,
       price: props.price,
+      userId: props.userId,
       customerDetails: formDate
     };
 
@@ -185,7 +186,8 @@ const mapStateToProps = state => {
     ings: state.builder.ingredients,
     price: state.builder.totalPrice,
     loading: state.order.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 

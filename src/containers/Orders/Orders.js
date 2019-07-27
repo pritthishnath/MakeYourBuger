@@ -6,12 +6,11 @@ import Order from "../../components/Order/Order";
 import Spinner from "../../components/UI/Spinner/Spinner";
 // import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as actions from "../../store/actions/index";
-import Modal from "../../components/UI/Modal/Modal";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 
 const Orders = props => {
   useEffect(() => {
-    props.onFetchOrders(props.token);
+    props.onFetchOrders(props.token, props.userId);
   }, []);
 
   let orders = <Spinner />;
@@ -24,30 +23,23 @@ const Orders = props => {
       />
     ));
   }
-
-  return (
-    <Aux>
-      <Modal show={props.error} modalClosed={props.onModalClosed}>
-        Unauthorized Access
-      </Modal>
-      {orders}
-    </Aux>
-  );
+  console.log(props.orders);
+  return <Aux>{orders}</Aux>;
 };
 
 const mapStateToProps = state => {
   return {
     orders: state.order.orders,
     loading: state.order.loading,
-    error: state.order.error,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchOrders: token => dispatch(actions.fetchOrders(token)),
-    onModalClosed: () => dispatch(actions.modalClosed())
+    onFetchOrders: (token, userId) =>
+      dispatch(actions.fetchOrders(token, userId))
   };
 };
 

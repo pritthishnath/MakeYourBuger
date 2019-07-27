@@ -36,6 +36,7 @@ const reducer = (state = initialState, action) => {
         error: null
       });
     case actionTypes.FETCH_ORDERS_FAIL:
+      console.log(action.error);
       return updateObject(state, { loading: false, error: action.error });
     case actionTypes.MODAL_CLOSED:
       return updateObject(state, { error: null });
