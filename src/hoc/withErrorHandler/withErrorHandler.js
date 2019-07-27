@@ -16,7 +16,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
         }
       );
       return () => {
-        console.log("cleanup", reqInterceptor, resInterceptor);
         axios.interceptors.request.eject(reqInterceptor);
         axios.interceptors.response.eject(resInterceptor);
       };

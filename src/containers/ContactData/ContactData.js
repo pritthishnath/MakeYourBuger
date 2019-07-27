@@ -7,6 +7,7 @@ import styles from "./ContactData.module.css";
 import Input from "../../components/UI/Input/Input";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from "../../store/actions/index";
+import { checkValidity, updateObject } from "../../shared/utility";
 
 const ContactData = props => {
   const [orderForm, setOrderForm] = useState({
@@ -91,41 +92,19 @@ const ContactData = props => {
   // const [loading, setLoading] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const checkValidity = (value, rules) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLen) {
-      isValid = value.length >= rules.minLen && isValid;
-    }
-
-    return isValid;
-  };
-
   const formInputHandler = (event, id) => {
-    const updatedOrderForm = {
-      ...orderForm
-    };
-    // const updatedFormElement = {
-    //   ...updatedOrderForm[id]
-    // // };
-    // updatedFormElement.value = event.target.value;
-    updatedOrderForm[id].value = event.target.value;
-    updatedOrderForm[id].valid = checkValidity(
-      updatedOrderForm[id].value,
-      updatedOrderForm[id].validation
-    );
-    updatedOrderForm[id].touched = true;
-    let upformIsValid = true;
+    const updatedOrderForm = updateObject(orderForm, {
+      [id]: updateObject(orderForm[id], {
+        value: event.target.value,
+        valid: checkValidity(event.target.value, orderForm[id].validation),
+        touched: true
+      })
+    });
+    let updatedFormIsValid = true;
     for (let id in updatedOrderForm) {
-      upformIsValid = updatedOrderForm[id].valid && upformIsValid;
+      updatedFormIsValid = updatedOrderForm[id].valid && updatedFormIsValid;
     }
-    setFormIsValid(upformIsValid);
+    setFormIsValid(updatedFormIsValid);
     setOrderForm(updatedOrderForm);
   };
 

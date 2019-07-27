@@ -23,7 +23,6 @@ const Orders = props => {
       />
     ));
   }
-  console.log(props.orders);
   return <Aux>{orders}</Aux>;
 };
 

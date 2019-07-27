@@ -7,6 +7,7 @@ import Button from "../../components/UI/Button/Button";
 import styles from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { checkValidity, updateObject } from "../../shared/utility";
 
 class Auth extends Component {
   state = {
@@ -49,35 +50,17 @@ class Auth extends Component {
     }
   }
 
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    if (!rules) {
-      return true;
-    }
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if (rules.minLen) {
-      isValid = value.length >= rules.minLen && isValid;
-    }
-
-    return isValid;
-  };
-
   formInputHandler = (event, id) => {
-    const updatedControls = {
-      ...this.state.controls,
-      [id]: {
-        ...this.state.controls[id],
+    const updatedControls = updateObject(this.state.controls, {
+      [id]: updateObject(this.state.controls[id], {
         value: event.target.value,
-        valid: this.checkValidity(
+        valid: checkValidity(
           event.target.value,
           this.state.controls[id].validation
         ),
         touched: true
-      }
-    };
+      })
+    });
     this.setState({ controls: updatedControls });
   };
 
@@ -120,7 +103,6 @@ class Auth extends Component {
     if (this.props.errMsg) {
       error = <p>{this.props.errMsg}</p>;
     }
-    console.log(this.props.errMsg);
     let auth = null;
     if (this.props.isAuth) {
       auth = <Redirect to={this.props.authRedirectPath} />;

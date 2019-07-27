@@ -34,11 +34,9 @@ export const order = (orderData, token) => {
     axios
       .post("/orders.json?auth=" + token, orderData)
       .then(res => {
-        console.log(res.data);
         dispatch(purchaseSuccess(res.data.name, orderData));
       })
       .catch(err => {
-        // console.log(err)
         dispatch(purchaseFail(err));
       });
   };
@@ -82,7 +80,6 @@ export const fetchOrders = (token, userId) => {
         dispatch(fetchOrdersSuccess(fetchedOrders));
       })
       .catch(err => {
-        console.log(err.response);
         dispatch(fetchOrdersFail(err.response.statusText));
       });
   };
