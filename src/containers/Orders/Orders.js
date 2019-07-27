@@ -1,52 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { connect } from "react-redux";
 
 import Order from "../../components/Order/Order";
 import axios from "axios";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import * as actions from "../../store/actions/index";
 
-const Orders = props => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
+class Orders extends React.Component {
+  componentDidMount() {
+    this.props.onFetchOrders();
+  }
+  render() {
+    let orders = <Spinner />;
+    if (!this.props.loading) {
+      orders = this.props.orders.map(order => (
+        <Order
+          key={order.id}
+          price={+order.price}
+          ingredients={order.ingredients}
+        />
+      ));
+    }
 
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get("/orders.json")
-      .then(res => {
-        const fetchedOrders = [];
-        for (let key in res.data) {
-          fetchedOrders.push({
-            ...res.data[key],
-            id: key
-          });
-        }
-        console.log(fetchedOrders);
-        setOrders(fetchedOrders);
-        setLoading(false);
-      })
-      .catch(err => {
-        setLoading(false);
-      });
-  }, []);
+    return orders;
+  }
+}
 
-  return (
-    <div>
-      {!loading ? (
-        orders.map(order => {
-          return (
-            <Order
-              key={order.id}
-              price={+order.price}
-              ingredients={order.ingredients}
-            />
-          );
-        })
-      ) : (
-        <Spinner />
-      )}
-    </div>
-  );
+const mapStateToProps = state => {
+  return {
+    orders: state.order.orders,
+    loading: state.order.loading
+  };
 };
 
-export default withErrorHandler(Orders, axios);
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchOrders: () => dispatch(actions.fetchOrders())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Orders);

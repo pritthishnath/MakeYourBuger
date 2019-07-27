@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Spinner from "../../components/UI/Spinner/Spinner";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import ContactData from "../ContactData/ContactData";
 
@@ -14,9 +13,11 @@ const Checkout = props => {
   const continuedHandler = () => {
     props.history.push("/checkout/contact-form");
   };
+  let purchasedRedirect = props.purchased ? <Redirect to="/" /> : null;
 
   let checkoutSummary = props.ings ? (
     <div>
+      {purchasedRedirect}
       <CheckoutSummary
         ingredients={props.ings}
         price={props.price}
@@ -34,7 +35,8 @@ const Checkout = props => {
 const mapStateToProps = state => {
   return {
     ings: state.builder.ingredients,
-    price: state.builder.totalPrice
+    price: state.builder.totalPrice,
+    purchased: state.order.purchased
   };
 };
 
