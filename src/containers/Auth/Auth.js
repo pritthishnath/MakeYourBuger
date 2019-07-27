@@ -5,6 +5,7 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import styles from "./Auth.module.css";
 import * as actions from "../../store/actions/index";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Auth extends Component {
   state = {
@@ -70,7 +71,6 @@ class Auth extends Component {
         touched: true
       }
     };
-    console.log(this.state.controls[id], [id]);
     this.setState({ controls: updatedControls });
   };
 
@@ -109,13 +109,23 @@ class Auth extends Component {
         changed={event => this.formInputHandler(event, formEl.id)}
       />
     ));
+    let error = null;
+    if (this.props.errMsg) {
+      error = <p>{this.props.errMsg}</p>;
+    }
+    console.log(this.props.errMsg);
 
     return (
       <div className={styles.Auth}>
-        <form onSubmit={this.submitHandler}>
-          {form}
-          <Button btnType="Success">SUBMIT</Button>
-        </form>
+        {!this.props.loading ? (
+          <form onSubmit={this.submitHandler}>
+            {error}
+            {form}
+            <Button btnType="Success">SUBMIT</Button>
+          </form>
+        ) : (
+          <Spinner />
+        )}
         <Button clicked={this.signupToggle} btnType="Danger">
           Switch to {this.state.isSignup ? "Sign in" : "Sign up"}
         </Button>
@@ -123,6 +133,13 @@ class Auth extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    errMsg: state.auth.errorMessage
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -132,6 +149,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Auth);

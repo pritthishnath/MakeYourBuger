@@ -28,11 +28,11 @@ export const purchaseFail = error => {
   };
 };
 
-export const order = orderData => {
+export const order = (orderData, token) => {
   return dispatch => {
     dispatch(purchaseStart());
     axios
-      .post("/orders.json", orderData)
+      .post("/orders.json?auth=" + token, orderData)
       .then(res => {
         console.log(res.data);
         dispatch(purchaseSuccess(res.data.name, orderData));
@@ -57,17 +57,18 @@ export const fetchOrdersSuccess = orders => {
   };
 };
 
-export const fetchOrdersFail = () => {
+export const fetchOrdersFail = error => {
   return {
-    type: actionsTypes.FETCH_ORDERS_FAIL
+    type: actionsTypes.FETCH_ORDERS_FAIL,
+    error: error
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = token => {
   return dispatch => {
     dispatch(fetchOrdersStart());
     axios
-      .get("/orders.json")
+      .get("/orders.json?auth=" + token)
       .then(res => {
         const fetchedOrders = [];
         for (let key in res.data) {
@@ -79,7 +80,14 @@ export const fetchOrders = () => {
         dispatch(fetchOrdersSuccess(fetchedOrders));
       })
       .catch(err => {
-        dispatch(fetchOrdersFail());
+        console.log(err.response);
+        dispatch(fetchOrdersFail(err.response.statusText));
       });
+  };
+};
+
+export const modalClosed = () => {
+  return {
+    type: actionsTypes.MODAL_CLOSED
   };
 };

@@ -11,6 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 import burgerReducer from "./store/reducers/burgerBuilder";
 import orderReducer from "./store/reducers/order";
+import authReducer from "./store/reducers/auth";
 
 axios.defaults.baseURL = "https://react-myburger-2cf8d.firebaseio.com/";
 
@@ -28,7 +29,8 @@ const enhancer = composeEnhancers(
 
 const rootReducer = combineReducers({
   builder: burgerReducer,
-  order: orderReducer
+  order: orderReducer,
+  auth: authReducer
 });
 
 const store = createStore(rootReducer, enhancer);

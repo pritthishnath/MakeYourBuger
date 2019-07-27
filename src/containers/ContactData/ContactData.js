@@ -142,7 +142,7 @@ const ContactData = props => {
       customerDetails: formDate
     };
 
-    props.onOrder(order);
+    props.onOrder(order, props.token);
   };
   const formArray = [];
   for (let key in orderForm) {
@@ -184,13 +184,14 @@ const mapStateToProps = state => {
   return {
     ings: state.builder.ingredients,
     price: state.builder.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrder: order => dispatch(actions.order(order))
+    onOrder: (order, token) => dispatch(actions.order(order, token))
   };
 };
 

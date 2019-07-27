@@ -6,11 +6,17 @@ import Order from "../../components/Order/Order";
 import Spinner from "../../components/UI/Spinner/Spinner";
 // import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import * as actions from "../../store/actions/index";
+import Modal from "../../components/UI/Modal/Modal";
+import Aux from "../../hoc/Auxiliary/Auxiliary";
 
 const Orders = props => {
   useEffect(() => {
-    props.onFetchOrders();
+    props.onFetchOrders(props.token);
   }, []);
+  let error = false;
+  if (props.error) {
+    error = true;
+  }
 
   let orders = <Spinner />;
   if (!props.loading) {
@@ -23,19 +29,29 @@ const Orders = props => {
     ));
   }
 
-  return orders;
+  return (
+    <Aux>
+      <Modal show={error} modalClosed={props.onModalClosed}>
+        Unauthorized Access
+      </Modal>
+      {orders}
+    </Aux>
+  );
 };
 
 const mapStateToProps = state => {
   return {
     orders: state.order.orders,
-    loading: state.order.loading
+    loading: state.order.loading,
+    error: state.order.error,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchOrders: () => dispatch(actions.fetchOrders())
+    onFetchOrders: token => dispatch(actions.fetchOrders(token)),
+    onModalClosed: () => dispatch(actions.modalClosed())
   };
 };
 
