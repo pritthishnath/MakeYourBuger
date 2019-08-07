@@ -22,11 +22,12 @@ const asyncAuth = asyncComponent(() => {
 });
 
 const App = props => {
+  const { onStayLogin, isAuth } = props;
   // const[show, setShow] = React.useState(true);
   // setTimeout(()=> (setShow(false)) , 3000)
   useEffect(() => {
-    props.onStayLogin();
-  }, []);
+    onStayLogin();
+  }, [onStayLogin]);
 
   let routes = (
     <Switch>
@@ -35,7 +36,7 @@ const App = props => {
       <Redirect to="/" />
     </Switch>
   );
-  if (props.isAuth) {
+  if (isAuth) {
     routes = (
       <Switch>
         <Route path="/checkout" component={asyncCheckout} />

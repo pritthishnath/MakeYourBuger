@@ -9,13 +9,14 @@ import * as actions from "../../store/actions/index";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 
 const Orders = props => {
+  const { orders, loading, token, userId, onFetchOrders } = props;
   useEffect(() => {
-    props.onFetchOrders(props.token, props.userId);
-  }, []);
+    onFetchOrders(token, userId);
+  }, [onFetchOrders, token, userId]);
 
-  let orders = <Spinner />;
-  if (!props.loading) {
-    orders = props.orders.map(order => (
+  let showOrders = <Spinner />;
+  if (!loading) {
+    showOrders = orders.map(order => (
       <Order
         key={order.id}
         price={+order.price}
@@ -23,7 +24,7 @@ const Orders = props => {
       />
     ));
   }
-  return <Aux>{orders}</Aux>;
+  return <Aux>{showOrders}</Aux>;
 };
 
 const mapStateToProps = state => {
