@@ -7,20 +7,17 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../../components/Navigation/Sidedrawer/SideDrawer";
 
 const Layout = props => {
-  const [state, setState] = useState({
-    showSideDrawer: false
-  });
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
 
   const sideDrawerHandler = () => {
-    const doesShow = state.showSideDrawer;
-    setState(prev => ({ ...prev, showSideDrawer: !doesShow }));
+    setShowSideDrawer(prevValue => !prevValue);
   };
 
   return (
     <Aux>
       <Toolbar sideDrawerOpen={sideDrawerHandler} isAuth={props.isAuth} />
       <SideDrawer
-        show={state.showSideDrawer}
+        show={showSideDrawer}
         closed={sideDrawerHandler}
         isAuth={props.isAuth}
       />
